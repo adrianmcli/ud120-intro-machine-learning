@@ -26,13 +26,15 @@ ages_train, ages_test, net_worths_train, net_worths_test = train_test_split(ages
 ### fill in a regression here!  Name the regression object reg so that
 ### the plotting code below works, and you can see what your regression looks like
 
+from sklearn import linear_model
+reg = linear_model.LinearRegression()
+reg.fit(ages_train, net_worths_train)
 
+# slope of the fitted line
+print "slope: " + str(reg.coef_)
 
-
-
-
-
-
+# R^2 value of our linear regression model
+print "R^2: " + str(reg.score(ages_test, net_worths_test))
 
 
 
@@ -68,6 +70,8 @@ if len(cleaned_data) > 0:
     ### refit your cleaned data!
     try:
         reg.fit(ages, net_worths)
+        print "slope w/ cleaned data: " + str(reg.coef_)
+        print "R^2 w/ cleaned data: " + str(reg.score(ages_test, net_worths_test))
         plt.plot(ages, reg.predict(ages), color="blue")
     except NameError:
         print "you don't seem to have regression imported/created,"

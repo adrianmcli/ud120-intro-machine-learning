@@ -42,22 +42,27 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
         ### only look at first 200 emails when developing
         ### once everything is working, remove this line to run over full dataset
         temp_counter += 1
-        if temp_counter < 200:
-            path = os.path.join('..', path[:-1])
-            print path
-            email = open(path, "r")
+        # if temp_counter < 200:
+        path = os.path.join('..', path[:-1])
+        # print path
+        email = open(path, "r")
 
-            ### use parseOutText to extract the text from the opened email
+        ### use parseOutText to extract the text from the opened email
+        parsed_text = parseOutText(email)
 
-            ### use str.replace() to remove any instances of the words
-            ### ["sara", "shackleton", "chris", "germani"]
+        ### use str.replace() to remove any instances of the words
+        ### ["sara", "shackleton", "chris", "germani"]
 
-            ### append the text to word_data
+        for word in ["sara", "shackleton", "chris", "germani", "sshacklensf", "cgermannsf"]:
+            parsed_text = parsed_text.replace(word, "")
 
-            ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
+        ### append the text to word_data
+        word_data.append(parsed_text)
 
+        ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
+        from_data.append(0 if name == "sara" else 1)
 
-            email.close()
+        email.close()
 
 print "emails processed"
 from_sara.close()
@@ -66,10 +71,19 @@ from_chris.close()
 pickle.dump( word_data, open("your_word_data.pkl", "w") )
 pickle.dump( from_data, open("your_email_authors.pkl", "w") )
 
-
+# print word_data[152]
 
 
 
 ### in Part 4, do TfIdf vectorization here
 
+from sklearn.feature_extraction.text import TfidfVectorizer
+transformer = TfidfVectorizer(stop_words="english")
+transformer.fit(word_data)
 
+transformed_data = transformer.transform(word_data)
+print "---"
+print transformed_data.shape
+
+vocab_list = transformer.get_feature_names()[33614]
+print vocab_list

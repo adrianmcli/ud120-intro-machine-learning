@@ -1,6 +1,4 @@
-*.pyc
-enron_mail_20110402.tgz
-enron_mail_20110402/
+.vscode
 enron_mail_20150507.tgz
 maildir/
 text_learning/your_word_data.pkl
@@ -9,3 +7,4 @@ my_classifier.pkl
 my_dataset.pkl
 my_feature_list.pkl
 .DS_Store
+**/*.pyc
